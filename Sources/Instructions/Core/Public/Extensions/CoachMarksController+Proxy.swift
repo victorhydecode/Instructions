@@ -1,6 +1,6 @@
 // CoachMarksController+Proxy.swift
 //
-// Copyright (c) 2016 Frédéric Maquin <fred@ephread.com>
+// Copyright (c) 2016, 2017 Frédéric Maquin <fred@ephread.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -32,12 +32,12 @@ extension CoachMarksController: CoachMarksControllerProxyDataSource {
     }
 
     func coachMarkViews(at index: Int, madeFrom coachMark: CoachMark)
-        -> (bodyView: CoachMarkBodyView, arrowView: CoachMarkArrowView?) {
+        -> (bodyView: (UIView & CoachMarkBodyView), arrowView: (UIView & CoachMarkArrowView)?) {
             return dataSource!.coachMarksController(self, coachMarkViewsAt: index,
                                                     madeFrom: coachMark)
     }
 
-    func constraintsForSkipView(_ skipView: UIView,
+    func constraintsForSkipView(_ skipView: (UIView & CoachMarkSkipView),
                                 inParent parentView: UIView)
         -> [NSLayoutConstraint]? {
             return dataSource?.coachMarksController(self,

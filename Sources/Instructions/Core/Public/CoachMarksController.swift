@@ -1,9 +1,9 @@
 // CoachMarksController.swift
 //
-// Copyright (c) 2015, 2016 Frédéric Maquin <fred@ephread.com>,
-//                          Daniel Basedow <daniel.basedow@gmail.com>,
-//                          Esteban Soto <esteban.soto.dev@gmail.com>,
-//                          Ogan Topkaya <>
+// Copyright (c) 2015 - 2017 Frédéric Maquin <fred@ephread.com>,
+//                           Daniel Basedow <daniel.basedow@gmail.com>,
+//                           Esteban Soto <esteban.soto.dev@gmail.com>,
+//                           Ogan Topkaya <>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -86,7 +86,7 @@ public class CoachMarksController {
 // MARK: - Forwarded Properties
 public extension CoachMarksController {
     /// Control or control wrapper used to skip the flow.
-    var skipView: CoachMarkSkipView? {
+    var skipView: (UIView & CoachMarkSkipView)? {
         get { return coachMarksViewController.skipView }
         set { coachMarksViewController.skipView = newValue }
     }

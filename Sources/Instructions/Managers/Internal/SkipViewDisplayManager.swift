@@ -1,6 +1,6 @@
 // SkipViewDisplayManager.swift
 //
-// Copyright (c) 2015, 2016 Frédéric Maquin <fred@ephread.com>
+// Copyright (c) 2015 - 2017 Frédéric Maquin <fred@ephread.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -37,12 +37,12 @@ class SkipViewDisplayManager {
     ///
     /// - Parameter skipView: the skip view to hide.
     /// - Parameter duration: the duration of the fade.
-    func hide(skipView: CoachMarkSkipView, duration: TimeInterval = 0) {
+    func hide(skipView: (UIView & CoachMarkSkipView), duration: TimeInterval = 0) {
         if duration == 0 {
-            skipView.asView?.alpha = 0.0
+            skipView.alpha = 0.0
         } else {
             UIView.animate(withDuration: duration) { () -> Void in
-                skipView.asView?.alpha = 0.0
+                skipView.alpha = 0.0
             }
         }
     }
@@ -51,24 +51,24 @@ class SkipViewDisplayManager {
     ///
     /// - Parameter skipView: the skip view to show.
     /// - Parameter duration: the duration of the fade.
-    func show(skipView: CoachMarkSkipView, duration: TimeInterval = 0) {
-        guard let parentView = skipView.asView?.superview else {
+    func show(skipView: (UIView & CoachMarkSkipView), duration: TimeInterval = 0) {
+        guard let parentView = skipView.superview else {
             print("The Skip View has no parent, aborting.")
             return
         }
 
-        let constraints = self.dataSource?.constraintsForSkipView(skipView.asView!,
+        let constraints = self.dataSource?.constraintsForSkipView(skipView,
                                                                   inParent: parentView)
 
         update(skipView: skipView, withConstraints: constraints)
 
-        skipView.asView?.superview?.bringSubview(toFront: skipView.asView!)
+        skipView.superview?.bringSubview(toFront: skipView)
 
         if duration == 0 {
-            skipView.asView?.alpha = 1.0
+            skipView.alpha = 1.0
         } else {
             UIView.animate(withDuration: duration) { () -> Void in
-                skipView.asView?.alpha = 1.0
+                skipView.alpha = 1.0
             }
         }
     }
@@ -77,14 +77,14 @@ class SkipViewDisplayManager {
     ///
     /// - Parameter skipView: the skip view to position.
     /// - Parameter constraints: the constraints to use.
-    func update(skipView: CoachMarkSkipView,
+    func update(skipView: (UIView & CoachMarkSkipView),
                 withConstraints constraints: [NSLayoutConstraint]?) {
-        guard let parentView = skipView.asView?.superview else {
+        guard let parentView = skipView.superview else {
             print("The Skip View has no parent, aborting.")
             return
         }
 
-        skipView.asView?.translatesAutoresizingMaskIntoConstraints = false
+        skipView.translatesAutoresizingMaskIntoConstraints = false
         parentView.removeConstraints(self.skipViewConstraints)
 
         self.skipViewConstraints = []

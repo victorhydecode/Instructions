@@ -1,6 +1,6 @@
 // FlowManager.swift
 //
-// Copyright (c) 2016 Frédéric Maquin <fred@ephread.com>
+// Copyright (c) 2016, 2017 Frédéric Maquin <fred@ephread.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -117,7 +117,7 @@ public class FlowManager {
         reset()
 
         let animationBlock = { () -> Void in
-            self.coachMarksViewController.skipView?.asView?.alpha = 0.0
+            self.coachMarksViewController.skipView?.alpha = 0.0
             self.coachMarksViewController.currentCoachMarkView?.alpha = 0.0
         }
 
@@ -244,7 +244,7 @@ extension FlowManager: CoachMarksViewControllerDelegate {
         showNextCoachMark()
     }
 
-    func didTap(skipView: CoachMarkSkipView?) {
+    func didTap(skipView: (UIView & CoachMarkSkipView)?) {
         stopFlow(immediately: false, userDidSkip: true, shouldCallDelegate: true)
     }
 

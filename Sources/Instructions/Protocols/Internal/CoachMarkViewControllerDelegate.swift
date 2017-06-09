@@ -1,6 +1,6 @@
 // CoachMarksViewControllerDelegate.swift
 //
-// Copyright (c) 2016 Frédéric Maquin <fred@ephread.com>
+// Copyright (c) 2016, 2017 Frédéric Maquin <fred@ephread.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,6 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import UIKit
+
 /// Used by the CoachMarksViewController to notify user or system related events.
 protocol CoachMarksViewControllerDelegate: class {
     /// The given `coachMarkView` was tapped.
@@ -30,7 +32,7 @@ protocol CoachMarksViewControllerDelegate: class {
     /// The given `skipView` was tapped.
     ///
     /// - Parameter skipView: the view that was tapped.
-    func didTap(skipView: CoachMarkSkipView?)
+    func didTap(skipView: (UIView & CoachMarkSkipView)?)
 
     /// The delegate should prepare for the upcoming size transition.
     func willTransition()

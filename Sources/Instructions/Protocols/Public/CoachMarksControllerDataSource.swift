@@ -1,6 +1,6 @@
 // CoachMarksControllerDataSource.swift
 //
-// Copyright (c) 2015, 2016 Frédéric Maquin <fred@ephread.com>
+// Copyright (c) 2015 - 2017 Frédéric Maquin <fred@ephread.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -60,8 +60,10 @@ public protocol CoachMarksControllerDataSource: class {
     ///
     /// - Returns: a tuple packaging the body component and the arrow component.
     func coachMarksController(_ coachMarksController: CoachMarksController,
-                              coachMarkViewsAt index: Int, madeFrom coachMark: CoachMark)
-    -> (bodyView: CoachMarkBodyView, arrowView: CoachMarkArrowView?)
+                              coachMarkViewsAt index: Int,
+                              madeFrom coachMark: CoachMark)
+    -> (bodyView: (UIView & CoachMarkBodyView),
+        arrowView: (UIView & CoachMarkArrowView)?)
 
     /// Asks for autolayout constraints needed to position `skipView` in
     /// `coachMarksController.view`.
@@ -73,13 +75,13 @@ public protocol CoachMarksControllerDataSource: class {
     ///
     /// - Returns: an array of NSLayoutConstraint.
     func coachMarksController(_ coachMarksController: CoachMarksController,
-                              constraintsForSkipView skipView: UIView,
+                              constraintsForSkipView skipView: (UIView & CoachMarkSkipView),
                               inParent parentView: UIView) -> [NSLayoutConstraint]?
 }
 
 public extension CoachMarksControllerDataSource {
     func coachMarksController(_ coachMarksController: CoachMarksController,
-                              constraintsForSkipView skipView: UIView,
+                              constraintsForSkipView skipView: (UIView & CoachMarkSkipView),
                               inParent parentView: UIView) -> [NSLayoutConstraint]? {
         return nil
     }
@@ -113,7 +115,7 @@ internal protocol CoachMarksControllerProxyDataSource: class {
     ///
     /// - Returns: a tuple packaging the body component and the arrow component.
     func coachMarkViews(at index: Int, madeFrom coachMark: CoachMark)
-        -> (bodyView: CoachMarkBodyView, arrowView: CoachMarkArrowView?)
+        -> (bodyView: (UIView & CoachMarkBodyView), arrowView: (UIView & CoachMarkArrowView)?)
 
     /// Asks for autolayout constraints needed to position `skipView` in
     /// `coachMarksController.view`.
@@ -122,6 +124,6 @@ internal protocol CoachMarksControllerProxyDataSource: class {
     /// - Parameter inParentView: the parent view (used to set contraints properly).
     ///
     /// - Returns: an array of NSLayoutConstraint.
-    func constraintsForSkipView(_ skipView: UIView,
+    func constraintsForSkipView(_ skipView: (UIView & CoachMarkSkipView),
                                 inParent parentView: UIView) -> [NSLayoutConstraint]?
 }

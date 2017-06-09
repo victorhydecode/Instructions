@@ -110,19 +110,22 @@ internal class CoachMarkControllerMockedDataSource : CoachMarksControllerDataSou
         return CoachMark()
     }
 
-    func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkViewsAt index: Int, madeFrom coachMark: CoachMark) -> (bodyView: CoachMarkBodyView, arrowView: CoachMarkArrowView?) {
+    func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkViewsAt index: Int, madeFrom coachMark: CoachMark) -> (bodyView: (UIView & CoachMarkBodyView),
+                                           arrowView: (UIView & CoachMarkArrowView)?) {
         return (CoachMarkBodyDefaultView(), nil)
     }
 }
 
 internal class CoachMarkControllerMockedDataSourceUsingConstructorWithoutButton : CoachMarkControllerMockedDataSource {
-    override func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkViewsAt index: Int, madeFrom coachMark: CoachMark) -> (bodyView: CoachMarkBodyView, arrowView: CoachMarkArrowView?) {
+    override func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkViewsAt index: Int, madeFrom coachMark: CoachMark) -> (bodyView: (UIView & CoachMarkBodyView),
+                                                arrowView: (UIView & CoachMarkArrowView)?) {
         return (CoachMarkBodyDefaultView(hintText: "hint", nextText: nil), nil)
     }
 }
 
 internal class CoachMarkControllerMockedDataSourceUsingConstructorWithButton : CoachMarkControllerMockedDataSource {
-    override func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkViewsAt index: Int, madeFrom coachMark: CoachMark) -> (bodyView: CoachMarkBodyView, arrowView: CoachMarkArrowView?) {
+    override func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkViewsAt index: Int, madeFrom coachMark: CoachMark) -> (bodyView: (UIView & CoachMarkBodyView),
+                                                arrowView: (UIView & CoachMarkArrowView)?) {
         return (CoachMarkBodyDefaultView(hintText: "hint", nextText: "next"), nil)
     }
 }

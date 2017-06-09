@@ -1,6 +1,6 @@
 // SkipViewDisplayManagerTests.swift
 //
-// Copyright (c) 2016 Frédéric Maquin <fred@ephread.com>
+// Copyright (c) 2016, 2017 Frédéric Maquin <fred@ephread.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -134,18 +134,18 @@ class MockedDataSource: CoachMarksControllerProxyDataSource {
     }
 
     func coachMarkViews(at index: Int, madeFrom coachMark: CoachMark)
-        -> (bodyView: CoachMarkBodyView, arrowView: CoachMarkArrowView?) {
+        -> (bodyView: (UIView & CoachMarkBodyView), arrowView: (UIView & CoachMarkArrowView)?) {
         return (bodyView: CoachMarkBodyDefaultView(), arrowView: nil)
     }
 
-    func constraintsForSkipView(_ skipView: UIView,
+    func constraintsForSkipView(_ skipView: (UIView & CoachMarkSkipView),
                                 inParent parentView: UIView) -> [NSLayoutConstraint]? {
         return nil
     }
 }
 
 class ConstraintsMockedDataSource: MockedDataSource {
-    override func constraintsForSkipView(_ skipView: UIView,
+    override func constraintsForSkipView(_ skipView: (UIView & CoachMarkSkipView),
                                 inParent parentView: UIView) -> [NSLayoutConstraint]? {
         return [makeConstraint(skipView: skipView, inParent: parentView)]
     }

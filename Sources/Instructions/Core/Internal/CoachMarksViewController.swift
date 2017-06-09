@@ -1,9 +1,9 @@
 // CoachMarksViewController.swift
 //
-// Copyright (c) 2015, 2016 Frédéric Maquin <fred@ephread.com>,
-//                          Daniel Basedow <daniel.basedow@gmail.com>,
-//                          Esteban Soto <esteban.soto.dev@gmail.com>,
-//                          Ogan Topkaya <>
+// Copyright (c) 2015 - 2017 Frédéric Maquin <fred@ephread.com>,
+//                           Daniel Basedow <daniel.basedow@gmail.com>,
+//                           Esteban Soto <esteban.soto.dev@gmail.com>,
+//                           Ogan Topkaya <>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,10 +31,10 @@ class CoachMarksViewController: UIViewController {
 
     // MARK: - Internal properties
     /// Control or control wrapper used to skip the flow.
-    var skipView: CoachMarkSkipView? {
+    var skipView: (UIView & CoachMarkSkipView)? {
         willSet {
             if newValue == nil {
-                self.skipView?.asView?.removeFromSuperview()
+                self.skipView?.removeFromSuperview()
                 self.skipView?.skipControl?.removeTarget(self,
                                                          action: #selector(skipCoachMarksTour(_:)),
                                                          for: .touchUpInside)
@@ -42,11 +42,6 @@ class CoachMarksViewController: UIViewController {
         }
 
         didSet {
-            guard let skipView = skipView else { return }
-            guard skipView is UIView else {
-                fatalError("skipView must conform to CoachMarkBodyView but also be a UIView.")
-            }
-
             addSkipView()
         }
     }
@@ -135,12 +130,12 @@ class CoachMarksViewController: UIViewController {
     fileprivate func addSkipView() {
         guard let skipView = skipView else { return }
 
-        skipView.asView?.alpha = 0.0
+        skipView.alpha = 0.0
         skipView.skipControl?.addTarget(self,
                                         action: #selector(skipCoachMarksTour(_:)),
                                         for: .touchUpInside)
 
-        instructionsRootView.addSubview(skipView.asView!)
+        instructionsRootView.addSubview(skipView)
     }
 }
 
@@ -209,14 +204,14 @@ extension CoachMarksViewController {
         instructionsRootView.isUserInteractionEnabled = true
         overlayManager.overlayView.isUserInteractionEnabled = false
         currentCoachMarkView?.isUserInteractionEnabled = false
-        skipView?.asView?.isUserInteractionEnabled = false
+        skipView?.isUserInteractionEnabled = false
     }
 
     private func enableInteraction() {
         instructionsRootView.isUserInteractionEnabled = true
         overlayManager.overlayView.isUserInteractionEnabled = true
         currentCoachMarkView?.isUserInteractionEnabled = true
-        skipView?.asView?.isUserInteractionEnabled = true
+        skipView?.isUserInteractionEnabled = true
     }
 }
 

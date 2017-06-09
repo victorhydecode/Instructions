@@ -1,6 +1,6 @@
 // CoachMarkSkipView.swift
 //
-// Copyright (c) 2015, 2016 Frédéric Maquin <fred@ephread.com>
+// Copyright (c) 2015 - 2017 Frédéric Maquin <fred@ephread.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,17 +26,10 @@ import UIKit
 public protocol CoachMarkSkipView : class {
     /// The control that will trigger the stop, in the display flow.
     var skipControl: UIControl? { get }
-    var asView: UIView? { get }
 }
 
 public extension CoachMarkSkipView {
     public var skipControl: UIControl? {
         return nil
-    }
-}
-
-public extension CoachMarkSkipView where Self: UIView {
-    public var asView: UIView? {
-        return self
     }
 }

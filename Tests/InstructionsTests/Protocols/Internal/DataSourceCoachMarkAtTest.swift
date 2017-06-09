@@ -1,6 +1,6 @@
 // DataSourceBaseTest.swift
 //
-// Copyright (c) 2016 Frédéric Maquin <fred@ephread.com>
+// Copyright (c) 2016, 2017 Frédéric Maquin <fred@ephread.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -88,13 +88,13 @@ class DataSourceCoachMarkAtTest: DataSourceBaseTest,
 
     func coachMarksController(_ coachMarksController: CoachMarksController,
                               coachMarkViewsAt index: Int, madeFrom coachMark: CoachMark)
-    -> (bodyView: CoachMarkBodyView, arrowView: CoachMarkArrowView?) {
+    -> (bodyView: (UIView & CoachMarkBodyView), arrowView: (UIView & CoachMarkArrowView)?) {
             numberOfTimesCoachMarkViewsAtWasCalled += 1
             return (bodyView: CoachMarkBodyDefaultView(), arrowView: nil)
     }
 
     func coachMarksController(_ coachMarksController: CoachMarksController,
-                              constraintsForSkipView skipView: UIView,
+                              constraintsForSkipView skipView: (UIView & CoachMarkSkipView),
                               inParent parentView: UIView) -> [NSLayoutConstraint]? {
         numberOfTimesConstraintsForSkipViewWasCalled += 1
         return nil

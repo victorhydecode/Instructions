@@ -291,7 +291,6 @@
 			isa = PBXGroup;
 			children = (
 				B68ABD291EEA01D40090A541 /* Internal */,
-				B68ABD2A1EEA01DA0090A541 /* Public */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -304,13 +303,6 @@
 				C632DDC41DD0CBAE0052DBF8 /* DataSourceNumberOfCoachMarksTest.swift */,
 			);
 			path = Internal;
-			sourceTree = "<group>";
-		};
-		B68ABD2A1EEA01DA0090A541 /* Public */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Public;
 			sourceTree = "<group>";
 		};
 		B68ABD2B1EEA09AF0090A541 /* Internal */ = {
@@ -445,12 +437,12 @@
 		C636FFB61BBC8ED600EB243B /* Public */ = {
 			isa = PBXGroup;
 			children = (
-				C64FB34C1BB6DEDC0081E5B6 /* CoachMarkArrowView.swift */,
-				C64FB37D1BB828E50081E5B6 /* CoachMarkBodyHighlightArrowDelegate.swift */,
-				C64FB34A1BB6DD1B0081E5B6 /* CoachMarkBodyView.swift */,
-				C63FC23A1BC9BB8100132132 /* CoachMarkSkipView.swift */,
 				C64FB33D1BB6CE2C0081E5B6 /* CoachMarksControllerDataSource.swift */,
 				C64FB33F1BB6D0160081E5B6 /* CoachMarksControllerDelegate.swift */,
+				C64FB34C1BB6DEDC0081E5B6 /* CoachMarkArrowView.swift */,
+				C64FB34A1BB6DD1B0081E5B6 /* CoachMarkBodyView.swift */,
+				C63FC23A1BC9BB8100132132 /* CoachMarkSkipView.swift */,
+				C64FB37D1BB828E50081E5B6 /* CoachMarkBodyHighlightArrowDelegate.swift */,
 			);
 			path = Public;
 			sourceTree = "<group>";

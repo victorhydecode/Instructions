@@ -63,7 +63,7 @@ class ViewController: UIViewController, CoachMarksControllerDataSource {
     }
 
     func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkViewsAt: Int, madeFrom coachMark: CoachMark)
-        -> (bodyView: CoachMarkBodyView, arrowView: CoachMarkArrowView?) {
+        -> (bodyView: (UIView & CoachMarkBodyView), arrowView: (UIView & CoachMarkArrowView)?) {
             let coachViews = coachMarksController.helper.makeDefaultCoachViews(withArrow: true, arrowOrientation: coachMark.arrowOrientation)
 
             coachViews.bodyView.hintLabel.text = "Hello! I'm a Coach Mark!"
