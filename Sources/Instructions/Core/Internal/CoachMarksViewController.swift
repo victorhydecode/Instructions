@@ -182,6 +182,7 @@ extension CoachMarksViewController {
             completion?()
             return
         }
+        currentCoachMarkView.removeGestureRecognizer(overlayManager.singleTapGestureRecognizerForCoachMark)
 
         disableInteraction()
         let duration: TimeInterval = animated ? coachMark.animationDuration : 0
@@ -205,6 +206,7 @@ extension CoachMarksViewController {
         let coachMarkView = coachMarkDisplayManager.createCoachMarkView(from: coachMark,
                                                                         at: index)
 
+        coachMarkView.addGestureRecognizer(overlayManager.singleTapGestureRecognizerForCoachMark)
         currentCoachMarkView = coachMarkView
 
         addTargetToCurrentCoachView()

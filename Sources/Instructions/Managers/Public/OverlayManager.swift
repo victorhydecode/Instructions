@@ -109,6 +109,16 @@ public class OverlayManager {
         return gestureRecognizer
     }()
 
+    /// TapGestureRecognizer that will catch tap event performed on the overlay.
+    /// Just a simple and fast workaround. Need to find a better place for it.
+    lazy var singleTapGestureRecognizerForCoachMark: UITapGestureRecognizer = {
+        let gestureRecognizer = UITapGestureRecognizer(target: self,
+                                                       action: #selector(handleSingleTap(_:)))
+
+        return gestureRecognizer
+    }()
+
+
     /// This method will be called each time the overlay receive
     /// a tap event.
     ///
