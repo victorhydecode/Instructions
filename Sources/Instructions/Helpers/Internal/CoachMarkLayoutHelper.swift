@@ -198,8 +198,8 @@ class CoachMarkLayoutHelper {
 
     private func computeProperties(for coachMark: CoachMark, inParentView parentView: UIView)
     -> CoachMarkComputedProperties {
-        let segmentIndex = computeSegmentIndex(of: coachMark, forLayoutDirection: layoutDirection,
-                                               inFrame: parentView.frame)
+        let segmentIndex = 2 // computeSegmentIndex(of: coachMark, forLayoutDirection: layoutDirection,
+                             //                  inFrame: parentView.frame)
 
         return CoachMarkComputedProperties(
             layoutDirection: layoutDirection,
