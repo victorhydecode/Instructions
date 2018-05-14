@@ -48,15 +48,15 @@ internal extension UIView {
         ]
     }
 
-    func makeConstraintToFillSuperviewHorizontally() -> [NSLayoutConstraint] {
+    func makeConstraintToFillSuperviewHorizontally(left: CGFloat = 0, right: CGFloat = 0) -> [NSLayoutConstraint] {
         guard let superview = superview else {
             print("Warning: View has no parent, can't make fill constraints.")
             return []
         }
 
         return [
-            leadingAnchor.constraint(equalTo: superview.leadingAnchor),
-            trailingAnchor.constraint(equalTo: superview.trailingAnchor)
+            leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: left),
+            trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: right)
         ]
     }
 }

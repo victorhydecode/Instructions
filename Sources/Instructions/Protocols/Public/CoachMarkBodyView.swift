@@ -35,4 +35,12 @@ public protocol CoachMarkBodyView: class {
     /// part, will automatically set itself as the delegate and will take care
     /// of fowarding the state to the arrow view.
     weak var highlightArrowDelegate: CoachMarkBodyHighlightArrowDelegate? { get set }
+
+    func left() -> CGFloat
+    func right() -> CGFloat
+}
+
+extension CoachMarkBodyView {
+    public func left() -> CGFloat { return 0 }
+    public func right() -> CGFloat { return 0 }
 }
