@@ -27,12 +27,12 @@ extension CoachMarksController: CoachMarksControllerProxyDataSource {
         return dataSource!.numberOfCoachMarks(for: self)
     }
 
-    func coachMark(at index: Int) -> CoachMark {
+    func coachMark(at index: Int) -> [CoachMark] {
         return dataSource!.coachMarksController(self, coachMarkAt: index)
     }
 
-    func coachMarkViews(at index: Int, madeFrom coachMark: CoachMark)
-        -> (bodyView: CoachMarkBodyView, arrowView: CoachMarkArrowView?) {
+    func coachMarkViews(at index: Int, madeFrom coachMark: [CoachMark])
+        -> [(bodyView: CoachMarkBodyView, arrowView: CoachMarkArrowView?)] {
             return dataSource!.coachMarksController(self, coachMarkViewsAt: index,
                                                     madeFrom: coachMark)
     }
@@ -53,21 +53,21 @@ extension CoachMarksController: CoachMarksControllerProxyDelegate {
         return delegate.coachMarksController(self, willLoadCoachMarkAt: index)
     }
 
-    func willShow(coachMark: inout CoachMark, afterSizeTransition: Bool, at index: Int) {
+    func willShow(coachMark: inout [CoachMark], afterSizeTransition: Bool, at index: Int) {
         delegate?.coachMarksController(self, willShow: &coachMark,
                                        afterSizeTransition: afterSizeTransition, at: index)
     }
 
-    func didShow(coachMark: CoachMark, afterSizeTransition: Bool, at index: Int) {
+    func didShow(coachMark: [CoachMark], afterSizeTransition: Bool, at index: Int) {
         delegate?.coachMarksController(self, didShow: coachMark,
                                        afterSizeTransition: afterSizeTransition, at: index)
     }
 
-    func willHide(coachMark: CoachMark, at index: Int) {
+    func willHide(coachMark: [CoachMark], at index: Int) {
         delegate?.coachMarksController(self, willHide: coachMark, at: index)
     }
 
-    func didHide(coachMark: CoachMark, at index: Int) {
+    func didHide(coachMark: [CoachMark], at index: Int) {
         delegate?.coachMarksController(self, didHide: coachMark, at: index)
     }
 

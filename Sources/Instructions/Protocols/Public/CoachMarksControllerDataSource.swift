@@ -45,7 +45,7 @@ public protocol CoachMarksControllerDataSource: class {
     ///
     /// - Returns: the coach mark metadata.
     func coachMarksController(_ coachMarksController: CoachMarksController,
-                              coachMarkAt index: Int) -> CoachMark
+                              coachMarkAt index: Int) -> [CoachMark]
 
     /// Asks for the views defining the coach mark that will be displayed in
     /// the given nth place. The arrow view is optional. However, if you provide
@@ -60,8 +60,8 @@ public protocol CoachMarksControllerDataSource: class {
     ///
     /// - Returns: a tuple packaging the body component and the arrow component.
     func coachMarksController(_ coachMarksController: CoachMarksController,
-                              coachMarkViewsAt index: Int, madeFrom coachMark: CoachMark)
-    -> (bodyView: CoachMarkBodyView, arrowView: CoachMarkArrowView?)
+                              coachMarkViewsAt index: Int, madeFrom coachMark: [CoachMark])
+        -> [(bodyView: CoachMarkBodyView, arrowView: CoachMarkArrowView?)]
 
     /// Asks for autolayout constraints needed to position `skipView` in
     /// `coachMarksController.view`.
@@ -100,7 +100,7 @@ internal protocol CoachMarksControllerProxyDataSource: class {
     /// - Parameter index: the index referring to the nth place.
     ///
     /// - Returns: the coach mark metadata.
-    func coachMark(at index: Int) -> CoachMark
+    func coachMark(at index: Int) -> [CoachMark]
 
     /// Asks for the views defining the coach mark that will be displayed in
     /// the given nth place. The arrow view is optional. However, if you provide
@@ -112,8 +112,8 @@ internal protocol CoachMarksControllerProxyDataSource: class {
     /// - Parameter coachMark: the coach mark meta data.
     ///
     /// - Returns: a tuple packaging the body component and the arrow component.
-    func coachMarkViews(at index: Int, madeFrom coachMark: CoachMark)
-        -> (bodyView: CoachMarkBodyView, arrowView: CoachMarkArrowView?)
+    func coachMarkViews(at index: Int, madeFrom coachMark: [CoachMark])
+        -> [(bodyView: CoachMarkBodyView, arrowView: CoachMarkArrowView?)]
 
     /// Asks for autolayout constraints needed to position `skipView` in
     /// `coachMarksController.view`.

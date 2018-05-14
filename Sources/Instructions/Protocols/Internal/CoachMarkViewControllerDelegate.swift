@@ -25,7 +25,7 @@ protocol CoachMarksViewControllerDelegate: class {
     /// The given `coachMarkView` was tapped.
     ///
     /// - Parameter coachMarkView: the view that was tapped.
-    func didTap(coachMarkView: CoachMarkView?)
+    func didTap(coachMarkView: [CoachMarkView])
 
     /// The given `skipView` was tapped.
     ///

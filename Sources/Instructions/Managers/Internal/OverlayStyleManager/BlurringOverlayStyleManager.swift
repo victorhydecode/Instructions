@@ -69,13 +69,15 @@ class BlurringOverlayStyleManager: OverlayStyleManager {
         let view = MaskView()
         view.backgroundColor = UIColor.clear
 
-        guard let overlay = self.overlayView,
-            let cutoutPath = self.overlayView?.cutoutPath else {
-                return view
+        guard let overlay = self.overlayView else {
+            return view
         }
 
         let path = UIBezierPath(rect: overlay.bounds)
-        path.append(cutoutPath)
+        for cutoutPath in overlay.cutoutPath {
+            path.append(cutoutPath)
+        }
+
         path.usesEvenOddFillRule = true
 
         view.shapeLayer.path = path.cgPath
@@ -118,9 +120,9 @@ class BlurringOverlayStyleManager: OverlayStyleManager {
         setUpOverlay()
 
         guard let overlay = overlayView,
-              let subOverlay = subOverlay as? UIVisualEffectView else {
-            completion?(false)
-            return
+            let subOverlay = subOverlay as? UIVisualEffectView else {
+                completion?(false)
+                return
         }
 
         overlay.isHidden = false
@@ -191,8 +193,8 @@ class BlurringOverlayStyleManager: OverlayStyleManager {
 
     private func makeSnapshotView() -> OverlaySnapshotView? {
         guard let overlayView = overlayView,
-              let snapshot = snapshotDelegate?.snapshot() else {
-            return nil
+            let snapshot = snapshotDelegate?.snapshot() else {
+                return nil
         }
 
         let view = OverlaySnapshotView(frame: overlayView.bounds)

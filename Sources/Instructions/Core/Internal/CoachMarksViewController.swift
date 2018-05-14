@@ -52,20 +52,20 @@ class CoachMarksViewController: UIViewController {
     }
 
     ///
-    var currentCoachMarkView: CoachMarkView?
+    var currentCoachMarkView: [CoachMarkView] = []
 
     ///
     var overlayManager: OverlayManager!
 
     ///
     var instructionsRootView: InstructionsRootView {
-#if INSTRUCTIONS_APP_EXTENSIONS
+        #if INSTRUCTIONS_APP_EXTENSIONS
         return appExtensionsRootView
-#else
+        #else
         //swiftlint:disable force_cast
         return view as! InstructionsRootView
         //swiftlint:enable force_cast
-#endif
+        #endif
     }
 
     ///
@@ -80,14 +80,14 @@ class CoachMarksViewController: UIViewController {
     // MARK: - Private properties
     fileprivate var onGoingSizeChange = false
 
-#if INSTRUCTIONS_APP_EXTENSIONS
+    #if INSTRUCTIONS_APP_EXTENSIONS
     fileprivate lazy var appExtensionsRootView: InstructionsRootView = {
         let view = InstructionsRootView()
         view.translatesAutoresizingMaskIntoConstraints = false
 
         return view
     }()
-#endif
+    #endif
 
     fileprivate var _shouldAutorotate: Bool = true
     fileprivate var _prefersStatusBarHidden: Bool = false
@@ -103,11 +103,11 @@ class CoachMarksViewController: UIViewController {
     }
 
     override func loadView() {
-#if INSTRUCTIONS_APP_EXTENSIONS
+        #if INSTRUCTIONS_APP_EXTENSIONS
         view = UIView()
-#else
+        #else
         view = InstructionsRootView()
-#endif
+        #endif
         view.backgroundColor = UIColor.clear
     }
 
@@ -120,13 +120,13 @@ class CoachMarksViewController: UIViewController {
         deregisterFromSystemEventChanges()
     }
 
-#if INSTRUCTIONS_APP_EXTENSIONS
+    #if INSTRUCTIONS_APP_EXTENSIONS
     func addRootView(to window: UIWindow) {
         window.addSubview(instructionsRootView)
         instructionsRootView.fillSuperview()
         instructionsRootView.backgroundColor = UIColor.clear
     }
-#endif
+    #endif
 
     func addOverlayView() {
         instructionsRootView.addSubview(overlayManager.overlayView)
@@ -176,47 +176,51 @@ extension CoachMarksViewController {
         })
     }
 
-    func hide(coachMark: CoachMark, animated: Bool = true, beforeTransition: Bool = false,
+    func hide(coachMark: [CoachMark], animated: Bool = true, beforeTransition: Bool = false,
               completion: (() -> Void)? = nil) {
-        guard let currentCoachMarkView = currentCoachMarkView else {
+        if currentCoachMarkView.isEmpty {
             completion?()
             return
         }
-        currentCoachMarkView.removeGestureRecognizer(overlayManager.singleTapGestureRecognizerForCoachMark)
+        for coachMarkViewView in currentCoachMarkView {
+            coachMarkViewView.removeGestureRecognizer(overlayManager.singleTapGestureRecognizerForCoachMark)
+        }
 
         disableInteraction()
-        let duration: TimeInterval = animated ? coachMark.animationDuration : 0
+        let duration: TimeInterval = animated ? coachMark.first!.animationDuration : 0
 
         self.coachMarkDisplayManager.hide(coachMarkView: currentCoachMarkView,
                                           overlay: overlayManager,
                                           animationDuration: duration,
                                           beforeTransition: beforeTransition) {
-            self.enableInteraction()
-            self.removeTargetFromCurrentCoachView()
-            completion?()
+                                            self.enableInteraction()
+                                            self.removeTargetFromCurrentCoachView()
+                                            completion?()
         }
     }
 
-    func show(coachMark: inout CoachMark, at index: Int, animated: Bool = true,
+    func show(coachMark: inout [CoachMark], at index: Int, animated: Bool = true,
               completion: (() -> Void)? = nil) {
         disableInteraction()
-        coachMark.computeMetadata(inFrame: instructionsRootView.frame)
-        let passthrough = coachMark.allowTouchInsideCutoutPath
+        for i in 0...coachMark.count-1 {
+            coachMark[i].computeMetadata(inFrame: instructionsRootView.frame)
+        }
+        let passthrough = coachMark.first!.allowTouchInsideCutoutPath
 
         let coachMarkView = coachMarkDisplayManager.createCoachMarkView(from: coachMark,
                                                                         at: index)
-
-        coachMarkView.addGestureRecognizer(overlayManager.singleTapGestureRecognizerForCoachMark)
+        for coachMarkViewView in coachMarkView {
+            coachMarkViewView.addGestureRecognizer(overlayManager.singleTapGestureRecognizerForCoachMark)
+        }
         currentCoachMarkView = coachMarkView
-
         addTargetToCurrentCoachView()
 
         coachMarkDisplayManager.showNew(coachMarkView: coachMarkView, from: coachMark,
                                         on: overlayManager,
                                         animated: animated) {
-            self.instructionsRootView.passthrough = passthrough
-            self.enableInteraction()
-            completion?()
+                                            self.instructionsRootView.passthrough = passthrough
+                                            self.enableInteraction()
+                                            completion?()
         }
     }
 
@@ -225,14 +229,18 @@ extension CoachMarksViewController {
         instructionsRootView.passthrough = false
         instructionsRootView.isUserInteractionEnabled = true
         overlayManager.overlayView.isUserInteractionEnabled = false
-        currentCoachMarkView?.isUserInteractionEnabled = false
+        for view in currentCoachMarkView {
+            view.isUserInteractionEnabled = false
+        }
         skipView?.asView?.isUserInteractionEnabled = false
     }
 
     private func enableInteraction() {
         instructionsRootView.isUserInteractionEnabled = true
         overlayManager.overlayView.isUserInteractionEnabled = true
-        currentCoachMarkView?.isUserInteractionEnabled = true
+        for view in currentCoachMarkView {
+            view.isUserInteractionEnabled = true
+        }
         skipView?.asView?.isUserInteractionEnabled = true
     }
 }
@@ -242,7 +250,7 @@ extension CoachMarksViewController {
     // MARK: - Overrides
     override func viewWillTransition(to size: CGSize,
                                      with coordinator: UIViewControllerTransitionCoordinator) {
-        if currentCoachMarkView == nil { return }
+        if currentCoachMarkView.isEmpty { return }
         if onGoingSizeChange { return }
         onGoingSizeChange = true
 
@@ -312,14 +320,28 @@ extension CoachMarksViewController {
 private extension CoachMarksViewController {
     /// Add touch up target to the current coach mark view.
     func addTargetToCurrentCoachView() {
-        currentCoachMarkView?.nextControl?.addTarget(self,
-            action: #selector(didTapCoachMark(_:)), for: .touchUpInside)
+
+        if currentCoachMarkView.isEmpty {
+            return
+        }
+
+        for view in currentCoachMarkView {
+            view.nextControl?.addTarget(self, action: #selector(didTapCoachMark(_:)), for: .touchUpInside)
+        }
+
     }
 
     /// Remove touch up target from the current coach mark view.
     func removeTargetFromCurrentCoachView() {
-        currentCoachMarkView?.nextControl?.removeTarget(self,
-            action: #selector(didTapCoachMark(_:)), for: .touchUpInside)
+
+        if currentCoachMarkView.isEmpty {
+            return
+        }
+
+        for view in currentCoachMarkView {
+            view.nextControl?.removeTarget(self, action: #selector(didTapCoachMark(_:)), for: .touchUpInside)
+        }
+
     }
 
     /// Will be called when the user perform an action requiring the display of the next coach mark.

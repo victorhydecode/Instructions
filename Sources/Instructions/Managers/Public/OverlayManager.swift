@@ -63,7 +63,7 @@ public class OverlayManager {
         }
     }
 
-    public var cutoutPath: UIBezierPath? {
+    public var cutoutPath: [UIBezierPath] {
         get {
             return overlayView.cutoutPath
         }
@@ -139,16 +139,16 @@ public class OverlayManager {
 
     func showOverlay(_ show: Bool, completion: ((Bool) -> Void)?) {
         overlayStyleManager.showOverlay(show, withDuration: fadeAnimationDuration,
-                                    completion: completion)
+                                        completion: completion)
     }
 
     func viewWillTransition() {
-        cutoutPath = nil
+        cutoutPath.removeAll()
         overlayStyleManager.viewWillTransition()
     }
 
     func viewDidTransition() {
-        cutoutPath = nil
+        cutoutPath.removeAll()
         overlayStyleManager.viewDidTransition()
     }
 

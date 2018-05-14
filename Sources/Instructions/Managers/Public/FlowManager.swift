@@ -42,7 +42,7 @@ public class FlowManager {
     internal weak var delegate: CoachMarksControllerProxyDelegate?
 
     /// Reference to the currently displayed coach mark, supplied by the `datasource`.
-    internal var currentCoachMark: CoachMark?
+    internal var currentCoachMark: [CoachMark]?
 
     /// The total number of coach marks, supplied by the `datasource`.
     private var numberOfCoachMarks = 0
@@ -118,7 +118,10 @@ public class FlowManager {
 
         let animationBlock = { () -> Void in
             self.coachMarksViewController.skipView?.asView?.alpha = 0.0
-            self.coachMarksViewController.currentCoachMarkView?.alpha = 0.0
+            for view in self.coachMarksViewController.currentCoachMarkView {
+                view.alpha = 0.0
+            }
+
         }
 
         let completionBlock = {(finished: Bool) -> Void in
@@ -134,7 +137,7 @@ public class FlowManager {
             self.coachMarksViewController.overlayManager.overlayView.alpha = 0
         } else {
             UIView.animate(withDuration: coachMarksViewController.overlayManager.fadeAnimationDuration,
-                                         animations: animationBlock)
+                           animations: animationBlock)
 
             self.coachMarksViewController.overlayManager.showOverlay(false, completion: completionBlock)
         }
@@ -206,7 +209,7 @@ public class FlowManager {
         if !self.paused {
             if coachMarksViewController.instructionsRootView.bounds.isEmpty {
                 print("The overlay view added to the window has empty bounds, " +
-                      "Instructions will stop.")
+                    "Instructions will stop.")
                 self.stopFlow()
                 return
             }
@@ -229,7 +232,7 @@ public class FlowManager {
 
         if numberToSkip < 0 {
             print("showNext: The specified number of coach marks to skip" +
-                  "was negative, nothing to do.")
+                "was negative, nothing to do.")
             return
         }
 
@@ -240,7 +243,7 @@ public class FlowManager {
 }
 
 extension FlowManager: CoachMarksViewControllerDelegate {
-    func didTap(coachMarkView: CoachMarkView?) {
+    func didTap(coachMarkView: [CoachMarkView]) {
         showNextCoachMark()
     }
 

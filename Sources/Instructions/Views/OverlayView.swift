@@ -27,7 +27,7 @@ import UIKit
 class OverlayView: UIView {
     internal static let sublayerName = "Instructions.OverlaySublayer"
 
-    var cutoutPath: UIBezierPath?
+    var cutoutPath: [UIBezierPath] = []
 
     /// Used to temporarily enable touch forwarding isnide the cutoutPath.
     public var allowTouchInsideCutoutPath: Bool = false
@@ -47,7 +47,7 @@ class OverlayView: UIView {
         let hitView = super.hitTest(point, with: event)
 
         if hitView == self {
-            guard let cutoutPath = self.cutoutPath else {
+            if cutoutPath.isEmpty {
                 return hitView
             }
 
@@ -55,11 +55,13 @@ class OverlayView: UIView {
                 return hitView
             }
 
-            if cutoutPath.contains(point) {
-                return nil
-            } else {
-                return hitView
+            for path in cutoutPath {
+                if path.contains(point) {
+                    return nil
+                }
             }
+            return hitView
+
         }
 
         return hitView
