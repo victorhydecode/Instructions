@@ -80,7 +80,7 @@ class CoachMarkDisplayManager {
                 arrow = arrows[i]
             }
             var orient: CoachMarkArrowOrientation? = nil
-            if orientations.count >= i {
+            if orientations.count >= i && orientations.count != 0 {
                 orient = orientations[i]
             }
 
